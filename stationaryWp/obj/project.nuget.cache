@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "Qod5Ylgz6RY=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\mehme\\Desktop\\WpPdfDownloader\\stationaryWp\\stationaryWp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mehme\\.nuget\\packages\\selenium.support\\4.34.0\\selenium.support.4.34.0.nupkg.sha512",
+    "C:\\Users\\mehme\\.nuget\\packages\\selenium.webdriver\\4.34.0\\selenium.webdriver.4.34.0.nupkg.sha512",
+    "C:\\Users\\mehme\\.nuget\\packages\\selenium.webdriver.chromedriver\\76.0.3809.6801\\selenium.webdriver.chromedriver.76.0.3809.6801.nupkg.sha512"
+  ],
+  "logs": []
+}
