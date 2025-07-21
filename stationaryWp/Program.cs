@@ -16,6 +16,20 @@ class Program
     {
         Console.WriteLine("--- WhatsApp PDF Otomatik İndirici Başlatılıyor ---");
 
+        //  Firestore yetki kontrolü
+        string DeviceId = DeviceHelper.GetUniqueDeviceId();
+        Console.WriteLine($"Cihaz ID: {DeviceId}");
+        var firestoreService = new FirestoreService();
+
+        bool isAuthorized = await firestoreService.IsDeviceAuthorizedAsync(DeviceId);
+        if (!isAuthorized)
+        {
+            Console.WriteLine($"[HATA] Bu cihaz ({DeviceId}) yetkilendirilmemiş. Firestore veritabanında izin verilmediği için program kapatılıyor.");
+            return;
+        }
+
+        Console.WriteLine($"[INFO] Bu cihaz ({DeviceId}) yetkilendirildi. Program çalıştırılıyor...\n");
+
         Directory.CreateDirectory(TempDownloadPath);
         Directory.CreateDirectory(FinalOrganizedPath);
 
@@ -26,7 +40,8 @@ class Program
         chromeOptions.AddUserProfilePreference("download.default_directory", TempDownloadPath);
         chromeOptions.AddUserProfilePreference("plugins.always_open_pdf_externally", true);
 
-        IWebDriver driver = null;
+        IWebDriver? driver = null;
+
         var processedIdsFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "processed_ids.txt");
 
         try
@@ -50,11 +65,9 @@ class Program
                 Console.WriteLine($"\n[{DateTime.Now:HH:mm:ss}] Yeni mesajlar ve PDF'ler kontrol ediliyor...");
 
                 await whatsAppHandler.ProcessOnlyNewestUnreadChatAsync();
-
-                // Aktif sohbetteki yeni PDF'leri de kontrol et
                 await whatsAppHandler.ProcessPdfsInActiveChatAsync();
 
-                await Task.Delay(TimeSpan.FromSeconds(5));  // Döngü bekleme süresi kısaltıldı
+                await Task.Delay(TimeSpan.FromSeconds(5));
             }
         }
         catch (WebDriverTimeoutException)
