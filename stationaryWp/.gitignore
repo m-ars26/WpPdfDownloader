@@ -1,2 +1,15 @@
 # Firebase JSON dosyaları
 config/*.json
+
+# Derleme klasörleri
+bin/
+obj/
+
+# VS Code klasörü
+.vscode/
+
+# Kullanıcı ve ayar dosyaları
+*.user
+*.suo
+*.tmp
+*.log
