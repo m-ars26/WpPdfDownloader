@@ -24,10 +24,21 @@ public partial class MainForm : Form
     private bool isRunning = false;
     private CancellationTokenSource? cancellationTokenSource;
     private IWebDriver? driver;
-    
-    private const string UserProfilePath = @"C:\Users\mehme\AppData\Local\Google\Chrome\User Data\WAppProfile_PdfDownloader";
-    private const string TempDownloadPath = @"C:\WhatsAppDownloads\Temp";
-    private const string FinalOrganizedPath = @"C:\WhatsAppDownloads\Organized";
+
+    private static readonly string LocalAppData =
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
+    private static readonly string UserProfilePath =
+        Path.Combine(LocalAppData,
+            @"Google\Chrome\User Data\WAppProfile_PdfDownloader");
+
+    private static readonly string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+    private static readonly string TempDownloadPath = Path.Combine(DesktopPath, "WhatsAppDownloads", "Temp");
+    private static readonly string FinalOrganizedPath = Path.Combine(DesktopPath, "WhatsAppDownloads", "Organized");
+
+    //private const string UserProfilePath = @"C:\Users\mehme\AppData\Local\Google\Chrome\User Data\WAppProfile_PdfDownloader";
+    //private const string TempDownloadPath = @"C:\WhatsAppDownloads\Temp";
+    //private const string FinalOrganizedPath = @"C:\WhatsAppDownloads\Organized";
 
     public MainForm()
     {

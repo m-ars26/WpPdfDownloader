@@ -7,8 +7,12 @@ public class FirestoreService
     private readonly FirestoreDb _firestoreDb;
 
     // JSON servis hesabı dosyasının tam yolu
-    private const string CredentialPath = @"C:\Users\mehme\Desktop\json\config\whatsapppdfdownloader-firebase-adminsdk-fbsvc-e3db26d57e.json";
-
+    //private const string CredentialPath = @"C:\Users\mehme\Desktop\json\config\whatsapppdfdownloader-firebase-adminsdk-fbsvc-e3db26d57e.json";
+    private readonly string CredentialPath = Path.Combine(
+    AppDomain.CurrentDomain.BaseDirectory,
+    "config",
+    "whatsapppdfdownloader-firebase-adminsdk-fbsvc-e3db26d57e.json"
+    );
     // Firebase projenin ID’si  (Console > Project settings > General > Project ID)
     private const string ProjectId = "whatsapppdfdownloader";
 
