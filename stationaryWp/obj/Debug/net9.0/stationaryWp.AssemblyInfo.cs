@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("stationaryWp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eb383105f79cf3c57471c94ae93132bf98c71bbe")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eac8b54a0becc8cc0de27dc9da5b5cff63558be8")]
 [assembly: System.Reflection.AssemblyProductAttribute("stationaryWp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("stationaryWp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

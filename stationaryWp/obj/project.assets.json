@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net9.0": {
+    "net9.0-windows7.0": {
       "Google.Api.CommonProtos/2.16.0": {
         "type": "package",
         "dependencies": {
@@ -345,26 +345,26 @@
           "buildTransitive/Selenium.WebDriver.targets": {}
         }
       },
-      "Selenium.WebDriver.ChromeDriver/76.0.3809.6801": {
+      "Selenium.WebDriver.ChromeDriver/131.0.6778.8500": {
         "type": "package",
         "build": {
           "build/Selenium.WebDriver.ChromeDriver.targets": {}
         }
       },
-      "System.CodeDom/7.0.0": {
+      "System.CodeDom/9.0.7": {
         "type": "package",
         "compile": {
-          "lib/net7.0/System.CodeDom.dll": {
+          "lib/net9.0/System.CodeDom.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net7.0/System.CodeDom.dll": {
+          "lib/net9.0/System.CodeDom.dll": {
             "related": ".xml"
           }
         },
         "build": {
-          "buildTransitive/net6.0/_._": {}
+          "buildTransitive/net8.0/_._": {}
         }
       },
       "System.Collections.Immutable/6.0.0": {
@@ -421,26 +421,26 @@
           }
         }
       },
-      "System.Management/7.0.2": {
+      "System.Management/9.0.7": {
         "type": "package",
         "dependencies": {
-          "System.CodeDom": "7.0.0"
+          "System.CodeDom": "9.0.7"
         },
         "compile": {
-          "lib/net7.0/System.Management.dll": {
+          "lib/net9.0/System.Management.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net7.0/System.Management.dll": {
+          "lib/net9.0/System.Management.dll": {
             "related": ".xml"
           }
         },
         "build": {
-          "buildTransitive/net6.0/_._": {}
+          "buildTransitive/net8.0/_._": {}
         },
         "runtimeTargets": {
-          "runtimes/win/lib/net7.0/System.Management.dll": {
+          "runtimes/win/lib/net9.0/System.Management.dll": {
             "assetType": "runtime",
             "rid": "win"
           }
@@ -1007,44 +1007,54 @@
         "selenium.webdriver.nuspec"
       ]
     },
-    "Selenium.WebDriver.ChromeDriver/76.0.3809.6801": {
-      "sha512": "XZhXTQTJ74vzfuOCVM5160hFYCTvCs9X9TkK1d6kYpNnk5qhPCV3U5kwa5dm2oBse1lX+xhR5cyOTopDEcakSg==",
+    "Selenium.WebDriver.ChromeDriver/131.0.6778.8500": {
+      "sha512": "xi6B90m0dx8SRAo7HFLNflH1q6A4ISuHCc4cmIAn9KVqdw1H6ePEgyspO4odkLaQgrnYn++81i9WaXgyNdHdtA==",
       "type": "package",
-      "path": "selenium.webdriver.chromedriver/76.0.3809.6801",
+      "path": "selenium.webdriver.chromedriver/131.0.6778.8500",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
+        "LICENSE",
+        "README.md",
+        "build/DefinePropertiesChromeDriver.targets",
         "build/Selenium.WebDriver.ChromeDriver.targets",
+        "driver/linux64/LICENSE.chromedriver",
         "driver/linux64/chromedriver",
+        "driver/mac64/LICENSE.chromedriver",
         "driver/mac64/chromedriver",
+        "driver/mac64arm/LICENSE.chromedriver",
+        "driver/mac64arm/chromedriver",
+        "driver/win32/LICENSE.chromedriver",
         "driver/win32/chromedriver.exe",
-        "selenium.webdriver.chromedriver.76.0.3809.6801.nupkg.sha512",
+        "nupkg-icon.png",
+        "selenium.webdriver.chromedriver.131.0.6778.8500.nupkg.sha512",
         "selenium.webdriver.chromedriver.nuspec"
       ]
     },
-    "System.CodeDom/7.0.0": {
-      "sha512": "GLltyqEsE5/3IE+zYRP5sNa1l44qKl9v+bfdMcwg+M9qnQf47wK3H0SUR/T+3N4JEQXF3vV4CSuuo0rsg+nq2A==",
+    "System.CodeDom/9.0.7": {
+      "sha512": "skI5aEl6XbZelP1hZvSmzzm3mM98k22x19Zu1Lf4rmuYoFEMJr7s7Te/MWUk9twjz4utyXt3q3pYXxGxI/Y+zA==",
       "type": "package",
-      "path": "system.codedom/7.0.0",
+      "path": "system.codedom/9.0.7",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "LICENSE.TXT",
+        "PACKAGE.md",
         "THIRD-PARTY-NOTICES.TXT",
         "buildTransitive/net461/System.CodeDom.targets",
         "buildTransitive/net462/_._",
-        "buildTransitive/net6.0/_._",
+        "buildTransitive/net8.0/_._",
         "buildTransitive/netcoreapp2.0/System.CodeDom.targets",
         "lib/net462/System.CodeDom.dll",
         "lib/net462/System.CodeDom.xml",
-        "lib/net6.0/System.CodeDom.dll",
-        "lib/net6.0/System.CodeDom.xml",
-        "lib/net7.0/System.CodeDom.dll",
-        "lib/net7.0/System.CodeDom.xml",
+        "lib/net8.0/System.CodeDom.dll",
+        "lib/net8.0/System.CodeDom.xml",
+        "lib/net9.0/System.CodeDom.dll",
+        "lib/net9.0/System.CodeDom.xml",
         "lib/netstandard2.0/System.CodeDom.dll",
         "lib/netstandard2.0/System.CodeDom.xml",
-        "system.codedom.7.0.0.nupkg.sha512",
+        "system.codedom.9.0.7.nupkg.sha512",
         "system.codedom.nuspec",
         "useSharedDesignerContext.txt"
       ]
@@ -1125,30 +1135,31 @@
         "system.linq.async.nuspec"
       ]
     },
-    "System.Management/7.0.2": {
-      "sha512": "/qEUN91mP/MUQmJnM5y5BdT7ZoPuVrtxnFlbJ8a3kBJGhe2wCzBfnPFtK2wTtEEcf3DMGR9J00GZZfg6HRI6yA==",
+    "System.Management/9.0.7": {
+      "sha512": "9wHNgKnZRFLZ/vSQ7+Ai9LrKkxEKh9LvC+Ta5dwQgPsyni0ET5igPATg01WW4bx/E5Q3VtRgEGithhOXaKIh0A==",
       "type": "package",
-      "path": "system.management/7.0.2",
+      "path": "system.management/9.0.7",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "LICENSE.TXT",
+        "PACKAGE.md",
         "THIRD-PARTY-NOTICES.TXT",
-        "buildTransitive/net6.0/_._",
+        "buildTransitive/net8.0/_._",
         "buildTransitive/netcoreapp2.0/System.Management.targets",
         "lib/net462/_._",
-        "lib/net6.0/System.Management.dll",
-        "lib/net6.0/System.Management.xml",
-        "lib/net7.0/System.Management.dll",
-        "lib/net7.0/System.Management.xml",
+        "lib/net8.0/System.Management.dll",
+        "lib/net8.0/System.Management.xml",
+        "lib/net9.0/System.Management.dll",
+        "lib/net9.0/System.Management.xml",
         "lib/netstandard2.0/System.Management.dll",
         "lib/netstandard2.0/System.Management.xml",
-        "runtimes/win/lib/net6.0/System.Management.dll",
-        "runtimes/win/lib/net6.0/System.Management.xml",
-        "runtimes/win/lib/net7.0/System.Management.dll",
-        "runtimes/win/lib/net7.0/System.Management.xml",
-        "system.management.7.0.2.nupkg.sha512",
+        "runtimes/win/lib/net8.0/System.Management.dll",
+        "runtimes/win/lib/net8.0/System.Management.xml",
+        "runtimes/win/lib/net9.0/System.Management.dll",
+        "runtimes/win/lib/net9.0/System.Management.xml",
+        "system.management.9.0.7.nupkg.sha512",
         "system.management.nuspec",
         "useSharedDesignerContext.txt"
       ]
@@ -1180,11 +1191,12 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net9.0": [
+    "net9.0-windows7.0": [
       "Google.Cloud.Firestore >= 3.10.0",
       "Selenium.Support >= 4.34.0",
       "Selenium.WebDriver >= 4.34.0",
-      "Selenium.WebDriver.ChromeDriver >= 76.0.3809.6801"
+      "Selenium.WebDriver.ChromeDriver >= 131.0.6778.8500",
+      "System.Management >= 9.0.7"
     ]
   },
   "packageFolders": {
@@ -1209,15 +1221,15 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net9.0"
+        "net9.0-windows"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net9.0": {
-          "targetAlias": "net9.0",
+        "net9.0-windows7.0": {
+          "targetAlias": "net9.0-windows",
           "projectReferences": {}
         }
       },
@@ -1234,8 +1246,8 @@
       "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
-      "net9.0": {
-        "targetAlias": "net9.0",
+      "net9.0-windows7.0": {
+        "targetAlias": "net9.0-windows",
         "dependencies": {
           "Google.Cloud.Firestore": {
             "target": "Package",
@@ -1251,7 +1263,11 @@
           },
           "Selenium.WebDriver.ChromeDriver": {
             "target": "Package",
-            "version": "[76.0.3809.6801, )"
+            "version": "[131.0.6778.8500, )"
+          },
+          "System.Management": {
+            "target": "Package",
+            "version": "[9.0.7, )"
           }
         },
         "imports": [
@@ -1266,11 +1282,11 @@
         "assetTargetFallback": true,
         "warn": true,
         "frameworkReferences": {
-          "Microsoft.AspNetCore.App": {
-            "privateAssets": "none"
-          },
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
+          },
+          "Microsoft.WindowsDesktop.App.WindowsForms": {
+            "privateAssets": "none"
           }
         },
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.303/PortableRuntimeIdentifierGraph.json"

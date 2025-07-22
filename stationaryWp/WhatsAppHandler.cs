@@ -78,83 +78,89 @@ public class WhatsAppHandler
 
     // Aktif sohbetdeki yeni PDF'leri indirir, sadece indirme butonuna tıklar
     public async Task ProcessPdfsInActiveChatAsync()
-    {
-        IReadOnlyCollection<IWebElement>? pdfMessages = null;
+{
+    IReadOnlyCollection<IWebElement>? pdfMessages = null;
 
+    try
+    {
+        var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+        pdfMessages = await Task.Run(() => wait.Until(driver =>
+        {
+            var found = driver.FindElements(By.XPath("//span[contains(text(), '.pdf')]"));
+            return found.Count > 0 ? found : null;
+        }));
+    }
+    catch (WebDriverTimeoutException)
+    {
+        Logger.LogInfo("Bu sohbette PDF bulunamadı.");
+        return;
+    }
+
+    if (pdfMessages == null || pdfMessages.Count == 0)
+    {
+        Logger.LogInfo("Bu sohbette PDF bulunamadı.");
+        return;
+    }
+
+    Logger.LogInfo($"Bu sohbette {pdfMessages.Count} adet PDF bulundu. İşleniyor...");
+
+    foreach (var pdfMessage in pdfMessages)
+    {
         try
         {
-            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
-            pdfMessages = await Task.Run(() => wait.Until(driver =>
-            {
-                var found = driver.FindElements(By.XPath("//span[contains(text(), '.pdf')]"));
-                return found.Count > 0 ? found : null;
-            }));
-        }
-        catch (WebDriverTimeoutException)
-        {
-            Logger.LogInfo("Bu sohbette PDF bulunamadı.");
-            return;
-        }
+            string fileName = pdfMessage.Text ?? $"PDF_{DateTime.Now.Ticks}";
+            string messageId = GenerateMessageId(pdfMessage);
 
-        if (pdfMessages == null || pdfMessages.Count == 0)
-        {
-            Logger.LogInfo("Bu sohbette PDF bulunamadı.");
-            return;
-        }
+            if (_processedMessageIds.Contains(messageId))
+                continue;
 
-        Logger.LogInfo($"Bu sohbette {pdfMessages.Count} adet PDF bulundu. İşleniyor...");
-
-        foreach (var pdfMessage in pdfMessages)
-        {
+            string senderName = "Bilinmiyor";
             try
             {
-                string fileName = pdfMessage.Text ?? $"PDF_{DateTime.Now.Ticks}";
-                string messageId = GenerateMessageId(pdfMessage);
+                var headerElement = _driver.FindElement(By.XPath("//header//span[@dir='auto']"));
+                senderName = SanitizeFolderName(headerElement.Text);
+            }
+            catch { }
 
-                if (_processedMessageIds.Contains(messageId))
-                    continue;
+            Logger.LogSuccess($"'{senderName}' kişisinden yeni PDF bulundu: {fileName}");
 
-                string senderName = "Bilinmiyor";
-                try
+            try
+            {
+                // Yalnızca bu .pdf mesajına ait olan indirme butonunu bul
+                var downloadButton = pdfMessage
+                    .FindElement(By.XPath(".//ancestor::div[contains(@class, 'message-')]//span[contains(@data-icon, 'download')]"));
+
+                if (downloadButton != null)
                 {
-                    var headerElement = _driver.FindElement(By.XPath("//header//span[@dir='auto']"));
-                    senderName = SanitizeFolderName(headerElement.Text);
+                    downloadButton.Click();
+                    Logger.LogInfo("PDF kutusu üzerindeki indirme butonuna tıklandı.");
+
+                    await WaitUntilDownloadStartsAndCompletesAsync();
+                    MoveLatestFileToOrganizedFolder(senderName);
+
+                    _processedMessageIds.Add(messageId);
+                    SaveProcessedIds();
                 }
-                catch { }
-
-                Logger.LogSuccess($"'{senderName}' kişisinden yeni PDF bulundu: {fileName}");
-
-                try
+                else
                 {
-                    var downloadButtons = _driver.FindElements(By.XPath("//span[contains(@data-icon, 'download')]"));
-
-                    if (downloadButtons.Count > 0)
-                    {
-                        downloadButtons.First().Click();
-                        Logger.LogInfo("PDF kutusu üzerindeki indirme butonuna tıklandı.");
-
-                        await WaitUntilDownloadStartsAndCompletesAsync();
-                        MoveLatestFileToOrganizedFolder(senderName);
-
-                        _processedMessageIds.Add(messageId);
-                        SaveProcessedIds();
-                    }
-                    else
-                    {
-                        Logger.LogWarning("PDF kutusunda indirme butonu bulunamadı. İndirme atlandı.");
-                    }
+                    Logger.LogWarning("PDF kutusunda indirme butonu bulunamadı. İndirme atlandı.");
                 }
-                catch (Exception ex)
-                {
-                    Logger.LogWarning($"İndirme sırasında hata: {ex.Message}");
-                }
+            }
+            catch (NoSuchElementException)
+            {
+                Logger.LogWarning("PDF mesajına ait indirme butonu bulunamadı.");
             }
             catch (Exception ex)
             {
-                Logger.LogWarning($"Bir PDF işlenirken hata oluştu: {ex.Message}");
+                Logger.LogWarning($"İndirme sırasında hata: {ex.Message}");
             }
         }
+        catch (Exception ex)
+        {
+            Logger.LogWarning($"Bir PDF işlenirken hata oluştu: {ex.Message}");
+        }
     }
+}
 
     private string GenerateMessageId(IWebElement pdfMessage)
     {

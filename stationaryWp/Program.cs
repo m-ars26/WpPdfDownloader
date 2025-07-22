@@ -1,87 +1,29 @@
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
 using System;
-using System.Collections.Generic;
-using System.IO;
+using System.Windows.Forms;
 using System.Threading.Tasks;
 
 class Program
 {
-    private const string UserProfilePath = @"C:\Users\mehme\AppData\Local\Google\Chrome\User Data\WAppProfile_PdfDownloader";
-    private const string TempDownloadPath = @"C:\WhatsAppDownloads\Temp";
-    private const string FinalOrganizedPath = @"C:\WhatsAppDownloads\Organized";
-
-    public static async Task Main(string[] args)
+    [STAThread]
+    public static void Main(string[] args)
     {
-        Console.WriteLine("--- WhatsApp PDF Otomatik İndirici Başlatılıyor ---");
-
-        //  Firestore yetki kontrolü
-        string DeviceId = DeviceHelper.GetUniqueDeviceId();
-        Console.WriteLine($"Cihaz ID: {DeviceId}");
-        var firestoreService = new FirestoreService();
-
-        bool isAuthorized = await firestoreService.IsDeviceAuthorizedAsync(DeviceId);
-        if (!isAuthorized)
-        {
-            Console.WriteLine($"[HATA] Bu cihaz ({DeviceId}) yetkilendirilmemiş. Firestore veritabanında izin verilmediği için program kapatılıyor.");
-            return;
-        }
-
-        Console.WriteLine($"[INFO] Bu cihaz ({DeviceId}) yetkilendirildi. Program çalıştırılıyor...\n");
-
-        Directory.CreateDirectory(TempDownloadPath);
-        Directory.CreateDirectory(FinalOrganizedPath);
-
-        var chromeOptions = new ChromeOptions();
-        chromeOptions.AddArgument("--start-maximized");
-        chromeOptions.AddArgument($"user-data-dir={UserProfilePath}");
-        chromeOptions.AddUserProfilePreference("download.prompt_for_download", false);
-        chromeOptions.AddUserProfilePreference("download.default_directory", TempDownloadPath);
-        chromeOptions.AddUserProfilePreference("plugins.always_open_pdf_externally", true);
-
-        IWebDriver? driver = null;
-
-        var processedIdsFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "processed_ids.txt");
-
+        // Encoding ayarları (console için)
         try
         {
-            driver = new ChromeDriver(chromeOptions);
-
-            var whatsAppHandler = new WhatsAppHandler(driver, TempDownloadPath, FinalOrganizedPath, processedIdsFile);
-
-            driver.Navigate().GoToUrl("https://web.whatsapp.com/");
-            Console.WriteLine("Lütfen WhatsApp Web'in yüklenmesini bekleyin.");
-            Console.WriteLine("İLK ÇALIŞTIRMA: Telefonunuzla QR kodunu okutarak giriş yapın.");
-            Console.WriteLine("SONRAKİ ÇALIŞTIRMALAR: Oturumunuz otomatik olarak açılacaktır.");
-
-            var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(2));
-            await Task.Run(() => wait.Until(d => d.FindElement(By.CssSelector("div[role='textbox'][contenteditable='true']"))));
-
-            Console.WriteLine("WhatsApp Web başarıyla yüklendi. Sohbetler dinleniyor...");
-
-            while (true)
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
             {
-                Console.WriteLine($"\n[{DateTime.Now:HH:mm:ss}] Yeni mesajlar ve PDF'ler kontrol ediliyor...");
-
-                await whatsAppHandler.ProcessOnlyNewestUnreadChatAsync();
-                await whatsAppHandler.ProcessPdfsInActiveChatAsync();
-
-                await Task.Delay(TimeSpan.FromSeconds(5));
+                Console.OutputEncoding = new System.Text.UTF8Encoding(false);
             }
         }
-        catch (WebDriverTimeoutException)
-        {
-            Logger.LogError("HATA: WhatsApp Web 2 dakika içinde yüklenemedi. İnternet bağlantınızı kontrol edin veya QR kodu tekrar okutun.");
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError($"Beklenmedik bir hata oluştu: {ex.Message}");
-        }
-        finally
-        {
-            driver?.Quit();
-            Logger.LogInfo("Tarayıcı kapatıldı. Program sonlandırıldı.");
-        }
+        catch { /* Ignore */ }
+
+        // Windows Forms application ayarları
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
+
+        // MainForm'u başlat
+        Application.Run(new MainForm());
     }
 }
